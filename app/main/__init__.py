@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
@@ -20,6 +18,3 @@ def create_app(config_name):
     migrate.init_app(app, db)
 
     return app
-
-
-app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')

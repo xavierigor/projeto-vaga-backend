@@ -2,10 +2,8 @@ import unittest
 
 from flask.cli import FlaskGroup
 
-from app.main import app
+from app import app
 from app.main.model.department import Department
-
-app.app_context().push()
 
 cli = FlaskGroup(app)
 
