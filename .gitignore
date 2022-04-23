@@ -2,7 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,django,virtualenv,pycharm,visualstudiocode,git
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,django,virtualenv,pycharm,visualstudiocode,git
 
-ta-lib*
+*.db
+*.sqlite
+*.sqlite3
 
 ### Django ###
 *.log
