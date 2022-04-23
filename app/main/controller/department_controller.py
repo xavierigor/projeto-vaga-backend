@@ -1,4 +1,4 @@
-from flask_restx import Resource
+from flask_restx import Resource, marshal
 
 from app.main.service.department_service import get_all_departments, \
     get_a_department
@@ -6,15 +6,25 @@ from app.main.util.dto import DepartmentDto
 
 api = DepartmentDto.api
 _department = DepartmentDto.department
+_full_department = DepartmentDto.full_department
+
+parser = api.parser()
+parser.add_argument(
+    'full', type=lambda v: v.lower() == 'true', default=False, location='args',
+    help="""If true, shows all the department information including
+        employee's full names and if they have any dependent""")
 
 
 @api.route('/')
 class DepartmentList(Resource):
 
     @api.doc('list of registered departments')
-    @api.marshal_list_with(_department, envelope='data')
+    @api.expect(parser, )
     def get(self):
-        return get_all_departments()
+        args = parser.parse_args()
+        if args['full'] is True:
+            return marshal(get_all_departments(), _full_department)
+        return marshal(get_all_departments(), _department)
 
 
 @api.route('/<id>')

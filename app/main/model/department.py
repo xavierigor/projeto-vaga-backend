@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationship
+
 from app.main import db
 
 
@@ -7,9 +9,10 @@ class Department(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(128), unique=True, nullable=False)
+    employees = relationship('Employee', back_populates='department')
 
     def __init__(self, name):
         self.name = name
 
     def __repr__(self):
-        return f'<Department \'{self.name}\''
+        return f'<Department \'{self.name}\'>'

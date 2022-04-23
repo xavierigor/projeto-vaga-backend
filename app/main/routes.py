@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask_restx import Api
 
 from app.main.controller.department_controller import api as department_ns
+from app.main.controller.employee_controller import api as employee_ns
 
 blueprint = Blueprint('api', __name__)
 
@@ -14,3 +15,4 @@ api = Api(
 )
 
 api.add_namespace(department_ns, path='/departments')
+api.add_namespace(employee_ns, path='/employees')
