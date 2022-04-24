@@ -8,7 +8,7 @@ api = DependentDto.api
 _dependent = DependentDto.dependent
 
 
-@api.route('/')
+@api.route('/', endpoint='dependent_list')
 class DependentList(Resource):
 
     @api.doc('list of registered dependents')
@@ -17,7 +17,7 @@ class DependentList(Resource):
         return get_all_dependents()
 
 
-@api.route('/<id>')
+@api.route('/<id>', endpoint='dependent_detail')
 @api.param('id', 'The Dependent identifier')
 @api.response(404, 'Dependent not found')
 class Dependent(Resource):

@@ -11,7 +11,7 @@ _employee = EmployeeDto.employee_with_relationship
 _dependent = DependentDto.dependent
 
 
-@api.route('/')
+@api.route('/', endpoint='employee_list')
 class EmployeeList(Resource):
 
     @api.doc('list of registered employees')
@@ -20,7 +20,7 @@ class EmployeeList(Resource):
         return get_all_employees()
 
 
-@api.route('/<id>')
+@api.route('/<id>', endpoint='employee_detail')
 @api.param('id', 'The Employee identifier')
 @api.response(404, 'Employee not found')
 class Employee(Resource):
@@ -34,7 +34,7 @@ class Employee(Resource):
         return employee
 
 
-@api.route('/<id>/dependents')
+@api.route('/<id>/dependents', endpoint='employee_dependents')
 @api.param('id', 'The Employee identifier')
 class EmployeesDependentList(Resource):
 

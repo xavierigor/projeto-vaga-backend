@@ -18,7 +18,7 @@ parser.add_argument(
         employee's full names and if they have any dependent""")
 
 
-@api.route('/')
+@api.route('/', endpoint='department_list')
 class DepartmentList(Resource):
 
     @api.doc('list of registered departments')
@@ -46,7 +46,7 @@ class DepartmentList(Resource):
         return serialized_data, code
 
 
-@api.route('/<id>')
+@api.route('/<id>', endpoint='department_detail')
 @api.param('id', 'The Department identifier')
 @api.response(404, 'Department not found')
 class Department(Resource):

@@ -1,5 +1,7 @@
 import unittest
 
+from flask import url_for
+
 from app.main.model.department import Department
 from app.main.model.dependent import Dependent
 from app.main.model.employee import Employee
@@ -27,7 +29,8 @@ class TestEmployee(BaseTestCase):
     def test_list_all_employees(self):
         create_instance(Dependent, full_name='Cyrus Wall', employee_id=1)
         with self.client:
-            response = self.client.get('/employees/')
+            path = url_for('api.employee_list')
+            response = self.client.get(path)
             data = response.json
             self.assertEquals(len(data), 2)
             self.assertEquals(response.status_code, 200)
@@ -42,7 +45,8 @@ class TestEmployee(BaseTestCase):
 
     def test_get_a_employee(self):
         with self.client:
-            response = self.client.get('/employees/1')
+            path = url_for('api.employee_detail', id=1)
+            response = self.client.get(path)
             data = response.json
             self.assertEquals(data['full_name'], 'John Doe')
             self.assertEquals(data['department_id'], 1)
@@ -53,7 +57,8 @@ class TestEmployee(BaseTestCase):
         create_instance(Dependent, full_name='Cyrus Wall', employee_id=1)
         create_instance(Dependent, full_name='Cassia Callaghan', employee_id=2)
         with self.client:
-            response = self.client.get('/employees/1/dependents')
+            path = url_for('api.employee_dependents', id=1)
+            response = self.client.get(path)
             data = response.json
             self.assertIsInstance(data, list)
             self.assertEquals(len(data), 1)
@@ -61,7 +66,8 @@ class TestEmployee(BaseTestCase):
             dependent = data[0]
             self.assertEquals(dependent['full_name'], 'Cyrus Wall')
             self.assertEquals(dependent['employee_id'], 1)
-            response = self.client.get('/employees/3/dependents')
+            path = url_for('api.employee_dependents', id=3)
+            response = self.client.get(path)
             data = response.json
             self.assertIsInstance(data, list)
             self.assertEquals(len(data), 0)

@@ -1,5 +1,7 @@
 import unittest
 
+from flask import url_for
+
 from app.main.model.department import Department
 from app.main.model.dependent import Dependent
 from app.main.model.employee import Employee
@@ -28,7 +30,8 @@ class TestDependent(BaseTestCase):
 
     def test_list_all_dependents(self):
         with self.client:
-            response = self.client.get('/dependents/')
+            path = url_for('api.dependent_list')
+            response = self.client.get(path)
             data = response.json
             self.assertIsInstance(data, list)
             self.assertEquals(len(data), 2)
@@ -42,7 +45,8 @@ class TestDependent(BaseTestCase):
 
     def test_get_a_dependent(self):
         with self.client:
-            response = self.client.get('/dependents/1')
+            path = url_for('api.dependent_detail', id=1)
+            response = self.client.get(path)
             data = response.json
             self.assertIsInstance(data, dict)
             self.assertEquals(response.status_code, 200)
