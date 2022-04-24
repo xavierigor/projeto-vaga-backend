@@ -38,11 +38,11 @@ class TestDepartment(BaseTestCase):
             self.assertEquals(response.status_code, 200)
             self.assertTrue('employees' in data[0])
             employees_eng = data[0]['employees']
-            self.assertTrue(isinstance(employees_eng, list))
+            self.assertIsInstance(employees_eng, list)
             self.assertEquals(len(employees_eng), 1)
             self.assertEquals(employees_eng[0]['full_name'], 'Marie Curie')
             employees_sales = data[1]['employees']
-            self.assertTrue(isinstance(employees_sales, list))
+            self.assertIsInstance(employees_sales, list)
             self.assertEquals(len(employees_sales), 0)
 
     def test_get_a_department(self):
