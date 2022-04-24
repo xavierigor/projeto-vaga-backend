@@ -23,7 +23,7 @@ class Department(db.Model):
 class DepartmentDto:
     api = Namespace('department', description='department related operations')
     department = api.model('department', {
-        'id': fields.Integer(description='department Identifier'),
+        'id': fields.Integer(readonly=True, description='department Identifier'),
         'name': fields.String(required=True, description='department name'),
     })
     full_department = api.inherit('Department', department, {

@@ -30,10 +30,11 @@ class Employee(db.Model):
 class EmployeeDto:
     api = Namespace('employee', description='employee related operations')
     employee = api.model('employee', {
-        'id': fields.Integer(description='employee Identifier'),
+        'id': fields.Integer(readonly=True, description='employee Identifier'),
         'full_name': fields.String(
             required=True, description='employee full name'),
         'have_dependents': fields.Boolean(
+            readonly=True,
             description='true if the employee has dependents, false otherwise')
     })
     employee_with_relationship = api.clone('employee', employee, {
