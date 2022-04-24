@@ -1,6 +1,8 @@
+from flask_restx import Namespace, fields
 from sqlalchemy.orm import relationship
 
 from app.main import db
+from app.main.model.employee import EmployeeDto
 
 
 class Department(db.Model):
@@ -16,3 +18,16 @@ class Department(db.Model):
 
     def __repr__(self):
         return f'<Department \'{self.name}\'>'
+
+
+class DepartmentDto:
+    api = Namespace('department', description='department related operations')
+    department = api.model('department', {
+        'id': fields.Integer(description='department Identifier'),
+        'name': fields.String(required=True, description='department name'),
+    })
+    full_department = api.model('department', {
+        'id': fields.Integer(description='department Identifier'),
+        'name': fields.String(required=True, description='department name'),
+        'employees': fields.Nested(EmployeeDto.employee)
+    })

@@ -1,3 +1,4 @@
+from flask_restx import Namespace, fields
 from sqlalchemy.orm import relationship
 
 from app.main import db
@@ -18,3 +19,13 @@ class Dependent(db.Model):
 
     def __repr__(self):
         return f'<Dependent \'{self.full_name}\'>'
+
+
+class DependentDto:
+    api = Namespace('dependent', description='dependent related operations')
+    dependent = api.model('dependent', {
+        'id': fields.Integer(description='dependent Identifier'),
+        'full_name': fields.String(
+            required=True, description='dependent full name'),
+        'employee_id': fields.Integer(description='employee Identifier'),
+    })

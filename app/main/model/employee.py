@@ -1,3 +1,4 @@
+from flask_restx import Namespace, fields
 from sqlalchemy.orm import relationship
 
 from app.main import db
@@ -24,3 +25,17 @@ class Employee(db.Model):
     def have_dependents(self):
         result = True if len(self.dependents) else False
         return result
+
+
+class EmployeeDto:
+    api = Namespace('employee', description='employee related operations')
+    employee = api.model('employee', {
+        'id': fields.Integer(description='employee Identifier'),
+        'full_name': fields.String(
+            required=True, description='employee full name'),
+        'have_dependents': fields.Boolean(
+            description='true if the employee has dependents, false otherwise')
+    })
+    employee_with_relationship = api.clone('employee', employee, {
+        'department_id': fields.Integer(description='department Identifier'),
+    })

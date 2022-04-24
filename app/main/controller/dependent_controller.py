@@ -1,3 +1,3 @@
-from app.main.util.dto import DependentDto
+from app.main.model.dependent import DependentDto
 
 api = DependentDto.api

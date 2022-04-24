@@ -1,9 +1,10 @@
 from flask_restx import Resource
 
+from app.main.model.dependent import DependentDto
+from app.main.model.employee import EmployeeDto
 from app.main.service.dependent_service import get_dependents_by_employee
 from app.main.service.employee_service import get_all_employees, \
     get_a_employee
-from app.main.util.dto import EmployeeDto, DependentDto
 
 api = EmployeeDto.api
 _employee = EmployeeDto.employee_with_relationship

@@ -1,8 +1,8 @@
 from flask_restx import Resource, marshal
 
+from app.main.model.department import DepartmentDto
 from app.main.service.department_service import get_all_departments, \
     get_a_department
-from app.main.util.dto import DepartmentDto
 
 api = DepartmentDto.api
 _department = DepartmentDto.department
