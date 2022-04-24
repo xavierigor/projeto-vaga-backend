@@ -16,7 +16,7 @@ api = Api(
     license='MIT',
 )
 
-api.add_namespace(department_ns, path='/departments')
-api.add_namespace(employee_ns, path='/employees')
-api.add_namespace(dependent_ns, path='/dependents')
+api.add_namespace(department_ns, path='/api/v1/departments')
+api.add_namespace(employee_ns, path='/api/v1/employees')
+api.add_namespace(dependent_ns, path='/api/v1/dependents')
 api.add_namespace(response_ns)
