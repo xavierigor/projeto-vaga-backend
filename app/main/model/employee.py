@@ -19,3 +19,8 @@ class Employee(db.Model):
 
     def __repr__(self):
         return f'<Employee \'{self.full_name}\'>'
+
+    @property
+    def have_dependents(self):
+        result = True if len(self.dependents) else False
+        return result
