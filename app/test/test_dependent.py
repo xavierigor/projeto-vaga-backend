@@ -7,19 +7,22 @@ from app.test.base import BaseTestCase
 from app.test.util import create_instance
 
 
-def create_employees():
+def populate():
     create_instance(Department, name='Sales')
     create_instance(Department, name='Engineering')
     create_instance(Employee, full_name='John Doe', department_id=1)
     create_instance(Employee, full_name='Marie Curie', department_id=2)
+    create_instance(Dependent, full_name='Cyrus Wall', employee_id=1)
 
 
 class TestDependent(BaseTestCase):
 
+    def setUp(self):
+        super().setUp()
+        populate()
+
     def test_model_repr(self):
-        create_employees()
-        dependent = create_instance(
-            Dependent, full_name='Cyrus Wall', employee_id=1)
+        dependent = Dependent.query.get({'id': 1})
         self.assertEquals(str(dependent), '<Dependent \'Cyrus Wall\'>')
 
 
