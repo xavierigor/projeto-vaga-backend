@@ -29,7 +29,7 @@ class TestTestingConfig(TestCase):
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(
             app.config['SQLALCHEMY_DATABASE_URI'] == 'sqlite:///' +
-            os.path.join(basedir, 'flask_boilerplate_test.db')
+            os.path.join(basedir, 'acmevita_test.db')
         )
 
 
