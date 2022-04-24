@@ -1,6 +1,16 @@
 from flask_restx import Namespace, fields
 
 
+class DependentDto:
+    api = Namespace('dependent', description='dependent related operations')
+    dependent = api.model('dependent', {
+        'id': fields.Integer(description='dependent Identifier'),
+        'full_name': fields.String(
+            required=True, description='dependent full name'),
+        'employee_id': fields.Integer(description='employee Identifier'),
+    })
+
+
 class EmployeeDto:
     api = Namespace('employee', description='employee related operations')
     employee = api.model('employee', {

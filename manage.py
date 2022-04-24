@@ -5,6 +5,7 @@ from flask.cli import FlaskGroup
 from app import app
 from app.main.model.department import Department
 from app.main.model.employee import Employee
+from app.main.model.dependent import Dependent
 
 cli = FlaskGroup(app)
 

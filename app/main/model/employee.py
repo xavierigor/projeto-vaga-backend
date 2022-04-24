@@ -11,6 +11,7 @@ class Employee(db.Model):
     full_name = db.Column(db.String(256), nullable=False)
     department_id = db.Column(db.Integer, db.ForeignKey('departments.id'))
     department = relationship('Department', back_populates='employees')
+    dependents = relationship('Dependent', back_populates='employee')
 
     def __init__(self, full_name, department_id):
         self.full_name = full_name
