@@ -52,6 +52,40 @@ class TestDepartment(BaseTestCase):
             self.assertEquals(data['name'], 'Human Resources')
             self.assertEquals(response.status_code, 200)
 
+    def test_create_a_department(self):
+        with self.client:
+            payload = {'name': 'Engineering'}
+            response = self.client.post(
+                '/departments/', json=payload, headers=self.headers)
+            data = response.json
+            self.assertEquals(response.status_code, 201)
+            self.assertEquals(data['name'], 'Engineering')
+
+    def test_create_an_already_existing_department(self):
+        expected_count = Department.query.count()
+        with self.client:
+            payload = {'name': 'Sales'}
+            response = self.client.post(
+                '/departments/', json=payload, headers=self.headers)
+            data = response.json
+            self.assertEquals(response.status_code, 400)
+            self.assertEquals(data['detail'], 'Department already exists')
+            actual_count = Department.query.count()
+            self.assertEquals(expected_count, actual_count)
+
+    def test_create_a_department_without_required_fields(self):
+        expected_count = Department.query.count()
+        with self.client:
+            payload = {'test': 'Sales'}
+            response = self.client.post(
+                '/departments/', json=payload, headers=self.headers)
+            data = response.json
+            self.assertEquals(response.status_code, 400)
+            self.assertEquals(
+                data['errors']['name'], '\'name\' is a required property')
+            actual_count = Department.query.count()
+            self.assertEquals(expected_count, actual_count)
+
 
 if __name__ == '__main__':
     unittest.main()

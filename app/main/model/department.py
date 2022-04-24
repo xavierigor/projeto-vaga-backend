@@ -26,8 +26,6 @@ class DepartmentDto:
         'id': fields.Integer(description='department Identifier'),
         'name': fields.String(required=True, description='department name'),
     })
-    full_department = api.model('department', {
-        'id': fields.Integer(description='department Identifier'),
-        'name': fields.String(required=True, description='department name'),
-        'employees': fields.Nested(EmployeeDto.employee)
+    full_department = api.inherit('Department', department, {
+        'employees': fields.Nested(EmployeeDto.employee, readonly=True)
     })
