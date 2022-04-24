@@ -13,6 +13,7 @@ def populate():
     create_instance(Employee, full_name='John Doe', department_id=1)
     create_instance(Employee, full_name='Marie Curie', department_id=2)
     create_instance(Dependent, full_name='Cyrus Wall', employee_id=1)
+    create_instance(Dependent, full_name='Cassia Callaghan', employee_id=2)
 
 
 class TestDependent(BaseTestCase):
@@ -24,6 +25,29 @@ class TestDependent(BaseTestCase):
     def test_model_repr(self):
         dependent = Dependent.query.get({'id': 1})
         self.assertEquals(str(dependent), '<Dependent \'Cyrus Wall\'>')
+
+    def test_list_all_dependents(self):
+        with self.client:
+            response = self.client.get('/dependents/')
+            data = response.json
+            self.assertIsInstance(data, list)
+            self.assertEquals(len(data), 2)
+            self.assertEquals(response.status_code, 200)
+            dependent1 = data[0]
+            self.assertEquals(dependent1['full_name'], 'Cyrus Wall')
+            self.assertEquals(dependent1['employee_id'], 1)
+            dependent2 = data[1]
+            self.assertEquals(dependent2['full_name'], 'Cassia Callaghan')
+            self.assertEquals(dependent2['employee_id'], 2)
+
+    def test_get_a_dependent(self):
+        with self.client:
+            response = self.client.get('/dependents/1')
+            data = response.json
+            self.assertIsInstance(data, dict)
+            self.assertEquals(response.status_code, 200)
+            self.assertEquals(data['full_name'], 'Cyrus Wall')
+            self.assertEquals(data['employee_id'], 1)
 
 
 if __name__ == '__main__':

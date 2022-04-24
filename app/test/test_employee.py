@@ -25,6 +25,7 @@ class TestEmployee(BaseTestCase):
         self.assertEquals(str(employee), '<Employee \'John Doe\'>')
 
     def test_list_all_employees(self):
+        create_instance(Dependent, full_name='Cyrus Wall', employee_id=1)
         with self.client:
             response = self.client.get('/employees/')
             data = response.json
@@ -33,9 +34,11 @@ class TestEmployee(BaseTestCase):
             emp1 = data[0]
             self.assertEquals(emp1['full_name'], 'John Doe')
             self.assertEquals(emp1['department_id'], 1)
+            self.assertTrue(emp1['have_dependents'])
             emp2 = data[1]
             self.assertEquals(emp2['full_name'], 'Marie Curie')
             self.assertEquals(emp2['department_id'], 2)
+            self.assertFalse(emp2['have_dependents'])
 
     def test_get_a_employee(self):
         with self.client:
