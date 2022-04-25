@@ -28,5 +28,6 @@ class DependentDto:
             readonly=True, description='dependent Identifier'),
         'full_name': fields.String(
             required=True, description='dependent full name'),
-        'employee_id': fields.Integer(description='employee Identifier'),
+        'employee_id': fields.Integer(
+            required=True, description='employee Identifier'),
     })
