@@ -17,12 +17,12 @@ python -m venv .venv
 
 2. Ative-o
 
-#### Windows
+Windows
 ```shell
 .\.venv\Scripts\activate
 ```
 
-#### Unix
+Unix
 ```shell
 source .venv/bin/activate
 ```
@@ -35,6 +35,8 @@ pip install -r requirements.txt
 4. Aplique as migrações e execute o projeto
 ```shell
 python manage.py db upgrade
+```
+```shell
 python manage.py run
 ```
 
