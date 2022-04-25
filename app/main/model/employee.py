@@ -38,5 +38,6 @@ class EmployeeDto:
             description='true if the employee has dependents, false otherwise')
     })
     employee_with_relationship = api.clone('employee', employee, {
-        'department_id': fields.Integer(description='department Identifier'),
+        'department_id': fields.Integer(
+            required=True, description='department Identifier'),
     })
