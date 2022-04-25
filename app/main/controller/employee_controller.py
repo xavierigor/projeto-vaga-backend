@@ -1,10 +1,11 @@
+from flask import request
 from flask_restx import Resource
 
 from app.main.model.dependent import DependentDto
 from app.main.model.employee import EmployeeDto
 from app.main.service.dependent_service import get_dependents_by_employee
 from app.main.service.employee_service import get_all_employees, \
-    get_a_employee
+    get_a_employee, create_employee
 
 api = EmployeeDto.api
 _employee = EmployeeDto.employee_with_relationship
@@ -18,6 +19,17 @@ class EmployeeList(Resource):
     @api.marshal_list_with(_employee)
     def get(self):
         return get_all_employees()
+
+    @api.response(
+        description='Employee successfully created',
+        model=_employee,
+        code=201
+    )
+    @api.doc('create a new employee')
+    @api.expect(_employee, validate=True)
+    @api.marshal_with(_employee)
+    def post(self):
+        return create_employee(request.json)
 
 
 @api.route('/<id>', endpoint='employee_detail')

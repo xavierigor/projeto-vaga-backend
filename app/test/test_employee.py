@@ -1,3 +1,4 @@
+import json
 import unittest
 
 from flask import url_for
@@ -72,6 +73,52 @@ class TestEmployee(BaseTestCase):
             self.assertIsInstance(data, list)
             self.assertEquals(len(data), 0)
             self.assertEquals(response.status_code, 200)
+
+    def test_create_a_employee(self):
+        with self.client:
+            path = url_for('api.employee_list')
+            payload = {'full_name': 'Neive Bates', 'department_id': 2}
+            response = self.client.post(
+                path, json=payload, headers=self.headers)
+            data = response.json
+            self.assertEquals(response.status_code, 201)
+            self.assertEquals(data['full_name'], payload['full_name'])
+            self.assertEquals(data['department_id'], payload['department_id'])
+            self.assertFalse(data['have_dependents'])
+
+    def test_create_a_employee_without_required_fields(self):
+        expected_count = Employee.query.count()
+        with self.client:
+            path = url_for('api.employee_list')
+            payload = {'test': 'Neive Bates', 'department_id': 2}
+            response = self.client.post(
+                path, json=payload, headers=self.headers)
+            data = response.json
+            self.assertEquals(response.status_code, 400)
+            self.assertEquals(
+                data['errors']['full_name'],
+                '\'full_name\' is a required property')
+
+            payload = {'full_name': 'Neive Bates', 'test': 2}
+            response = self.client.post(
+                path, json=payload, headers=self.headers)
+            data = response.json
+            self.assertEquals(response.status_code, 400)
+            self.assertEquals(
+                data['errors']['department_id'],
+                '\'department_id\' is a required property')
+
+            payload = {}
+            response = self.client.post(
+                path, json=payload, headers=self.headers)
+            data = response.json
+            self.assertEquals(response.status_code, 400)
+            self.assertEquals(len(data['errors']), 2)
+            self.assertIn('full_name', data['errors'])
+            self.assertIn('department_id', data['errors'])
+
+            actual_count = Employee.query.count()
+            self.assertEquals(expected_count, actual_count)
 
 
 if __name__ == '__main__':
